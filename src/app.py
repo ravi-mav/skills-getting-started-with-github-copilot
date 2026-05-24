@@ -62,6 +62,51 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up")
+        # Ensure additional activities exist (2 sports, 2 artistic, 2 intellectual)
+        _additional_activities = {
+            "Soccer Team": {
+                "description": "Competitive soccer team training and matches",
+                "schedule": "Mondays and Thursdays, 4:00 PM - 6:00 PM",
+                "max_participants": 18,
+                "participants": ["liam@mergington.edu"]
+            },
+            "Basketball Team": {
+                "description": "Team practices and inter-school tournaments",
+                "schedule": "Tuesdays and Fridays, 4:30 PM - 6:30 PM",
+                "max_participants": 15,
+                "participants": ["noah@mergington.edu"]
+            },
+            "Art Club": {
+                "description": "Explore drawing, painting, and mixed media projects",
+                "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+                "max_participants": 20,
+                "participants": ["ava@mergington.edu"]
+            },
+            "Drama Club": {
+                "description": "Acting, stagecraft, and school productions",
+                "schedule": "Thursdays, 3:30 PM - 5:30 PM",
+                "max_participants": 25,
+                "participants": ["isabella@mergington.edu"]
+            },
+            "Debate Team": {
+                "description": "Build public speaking and argumentation skills",
+                "schedule": "Mondays, 3:45 PM - 5:15 PM",
+                "max_participants": 12,
+                "participants": ["mason@mergington.edu"]
+            },
+            "Science Olympiad": {
+                "description": "Prepare for science competitions across disciplines",
+                "schedule": "Fridays, 3:30 PM - 5:00 PM",
+                "max_participants": 16,
+                "participants": ["sophia@mergington.edu"]
+            }
+        }
+        for _name, _info in _additional_activities.items():
+            activities.setdefault(_name, _info)
+
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
